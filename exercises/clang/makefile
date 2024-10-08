@@ -8,7 +8,7 @@ VPATH= ./src
 
 .PHONY: all
 
-all:mioatoi
+all:ribalta_elenco
 
 clean:
 	rm -f *.o
