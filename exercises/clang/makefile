@@ -8,7 +8,8 @@ VPATH= ./src
 
 .PHONY: all
 
-all:ribalta_elenco
+all:astringhe concatena mioatoi ostringhe paridispari \
+	reverse ribalta_elenco somma_arr somma_mancanti somme_distinte \
 
 clean:
 	rm -f *.o
