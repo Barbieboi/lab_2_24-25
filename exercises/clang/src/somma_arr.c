@@ -12,7 +12,7 @@ void printarr(int *a, int l){
 	}
 	puts("");
 }
-
+//commento
 int main(int argc, char *argv[]){
 
 	int N;
