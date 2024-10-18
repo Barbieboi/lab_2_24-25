@@ -7,8 +7,9 @@
 #include <errno.h>  
 // gcc -std=c11 -Wall -O -g -o
 
-void termina(char *messaggio){
-	perror(messaggio);
+void termina(const char *messaggio){
+	if(errno != 0) perror(messaggio);
+	else fprintf(stderr, "%s\n", messaggio);
 	exit(EXIT_FAILURE);
 }
 
