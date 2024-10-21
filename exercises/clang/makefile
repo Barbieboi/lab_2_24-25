@@ -6,11 +6,16 @@ VPATH= ./src
 
 .SILENT: 
 
-.PHONY: all
+.PHONY: all clean purge
 
-all:astringhe concatena mioatoi ostringhe paridispari \
-	reverse ribalta_elenco somma_arr somma_mancanti somme_distinte \
-	esad smista 
+EXECS:=	astringhe concatena mioatoi ostringhe paridispari \
+		reverse ribalta_elenco somma_arr somma_mancanti somme_distinte \
+		esad smista
+
+all:$(EXECS) 
 
 clean:
 	rm -f *.o
+
+purge:
+	rm -f $(EXECS)

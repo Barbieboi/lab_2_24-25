@@ -31,13 +31,16 @@ int main(int argc, char **argv){
 			char *s_primo = NULL;
 			int e = asprintf(&s_primo, "%d" , i);
 			if(e == -1) termina("Errore asprintf");
+
 			char *nome_file = NULL ;
 			e = asprintf(&nome_file , "%s.%c.primi", nome,s_primo[strlen(s_primo) - 1]);
 			if(e == -1) termina("Errore asprintf");
+
 			FILE *f = fopen(nome_file, "a");
 			if(f == NULL) termina("Errore apertura file");
 			fprintf(f, "%d\n", i);
 			if(fclose(f)==EOF) termina("Errore chiusura file");
+			
 			free(s_primo);
 			free(nome_file);
 		}

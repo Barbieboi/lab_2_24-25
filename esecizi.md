@@ -254,7 +254,7 @@ si deve ottenere l'output
 1a
 49
 3e8
-6f
+65
 ```
 Verificate con valgrind il corretto uso e deallocazione della memoria 
 
