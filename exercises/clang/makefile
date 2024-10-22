@@ -10,7 +10,7 @@ VPATH= ./src
 
 EXECS:=	astringhe concatena mioatoi ostringhe paridispari \
 		reverse ribalta_elenco somma_arr somma_mancanti somme_distinte \
-		esad smista
+		esad smista array_file
 
 all:$(EXECS) 
 
