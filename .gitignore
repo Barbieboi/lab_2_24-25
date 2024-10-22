@@ -1,5 +1,6 @@
 exercises/clang/old_src/
 
+exercises/clang/array_file
 exercises/clang/astringhe
 exercises/clang/concatena
 exercises/clang/esad
@@ -15,3 +16,5 @@ exercises/clang/somme_distinte
 
 exercises/clang/infile.txt
 exercises/clang/outfile.txt
+exams/infile.txt
+
