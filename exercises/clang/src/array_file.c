@@ -99,7 +99,7 @@ void miofile_stampa(const miofile *a, FILE *f) {
 // funzione di merge adattata dal merge di array di interi
 void merge(miofile *a[], int na, 
            miofile *c[], int nc,
-           miofile *b[])
+           miofile *b[], int (*f)(miofile* , miofile*))
 {
   assert(a!=NULL);
   assert(c!=NULL);
@@ -113,8 +113,7 @@ void merge(miofile *a[], int na,
   
   // scorro a[] e c[] e copio il minore in b[]
   while(i<na && j<nc) {
-    // guardo se il nome di a[i] è minore del nome c[j]
-    if( strcmp(a[i]->nome,c[j]->nome) < 0 ) { // ordinamento lessicografico per nome 
+    if(f(a[i], c[j])>0) {  
       b[k] = a[i];
       i++;
     } else {
@@ -146,7 +145,7 @@ void merge(miofile *a[], int na,
 
 // funzione mergesort ricorsiva, adattata dal mergesort di interi
 // è stato sufficiente modificare il tipo da int -> miofile * 
-void mergesort(miofile *a[], int n)
+void mergesort(miofile *a[], int n, int(*f)(miofile* , miofile*))
 {
   assert(a!=NULL);
   assert(n>0);
@@ -157,18 +156,23 @@ void mergesort(miofile *a[], int n)
   int n1 = n/2;     // dimesione prima parte
   int n2 = n - n1;  // dimensione seconda parte
   
-  mergesort(a,n1);
-  mergesort(&a[n1],n2); // &a[n1] potevo scriverlo a+n1
+  mergesort(a,n1,f);
+  mergesort(&a[n1],n2, f); // &a[n1] potevo scriverlo a+n1
   
   // ho le due metà ordinate devo fare il merge
   miofile **b = malloc(n*sizeof(*b));
   if(b==NULL) termina("malloc fallita nel merge");
-  merge(a,n1,&a[n1],n2,b);  
+  merge(a,n1,&a[n1],n2,b, f);  
   // copio il risultato da b[] ad a[]
   for(int i=0;i<n;i++)
     a[i] = b[i];  // sto copiando dei puntatori 
   
   free(b);
+}
+
+int ordina_file(miofile* a, miofile* b){
+	if(a->size==b->size) return(strcmp(a->nome, b->nome));
+	else return a->size<b->size?1:-1;
 }
 
 int main(int argc, char *argv[])
@@ -177,21 +181,27 @@ int main(int argc, char *argv[])
 	printf("Uso: %s nomifile\n",argv[0]);
 	exit(1);
 	}
-
-	miofile **palle = malloc(sizeof(*palle)*(argc-1));
-	if(palle == NULL) termina("Memoria insufficente");
-
+	miofile **arr_file = malloc(sizeof(*arr_file)*(argc-1));
+	if(arr_file == NULL) termina("Memoria insufficente");
 	int n = 0 ;
 	for(int i = 1 ; i < argc-1; i++){
 		miofile* tmp = miofile_crea(argv[i]);
-		if(tmp != NULL) palle[n++] = tmp ;
+		if(tmp != NULL) arr_file[n++] = tmp ;
+	}
+	for(int i = 0 ; i < n; i++){
+		miofile_stampa(arr_file[i], stdout);
+	}
+	puts("------------");
+	mergesort(arr_file, n, ordina_file);
+
+	for(int i = 0 ; i < n; i++){
+		miofile_stampa(arr_file[i], stdout);
 	}
 
 	for(int i = 0 ; i < n; i++){
-		miofile_stampa(palle[i], stdout);
+		miofile_free(arr_file[i]);
 	}
-
-
+	free(arr_file);
 	return 0;
 }
 
