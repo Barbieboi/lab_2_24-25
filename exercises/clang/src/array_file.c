@@ -89,7 +89,7 @@ b[0]->lat = 43.2;    // useremo questa;
 
 // stampa sul file *f i campi del file a
 void miofile_stampa(const miofile *a, FILE *f) {
-  fprintf(f,"nome file: %s dimensione: %ld\n", a->nome, a->size);
+  fprintf(f,"nome file: %20s dimensione: %ld\n", a->nome, a->size);
 }
 
 

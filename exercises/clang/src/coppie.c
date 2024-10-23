@@ -25,10 +25,7 @@ void stampa_coppia(const coppia* c, FILE* f){
 	fprintf(f, "(%d %d)\t" , c->primo, c->secondo);
 }
 
-void merge(coppia* a[], int na, 
-		   coppia* c[], int nc, 
-		   coppia* b[], int (*f)(coppia*, coppia*))
-{
+void merge(coppia* a[], int na, coppia* c[], int nc, coppia* b[], int (*f)(coppia*, coppia*)){
   assert(a!=NULL);
   assert(c!=NULL);
   assert(b!=NULL);
