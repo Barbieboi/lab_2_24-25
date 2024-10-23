@@ -247,14 +247,14 @@ Scrivere poi un programma `esad` che per ogni intero passato sulla linea di coma
 
 Ad esempio,  scrivendo
 ```
-esad  26 73 1000 101
+esad  26 73 1000 111
 ```
 si deve ottenere l'output 
 ```
 1a
 49
 3e8
-65
+6f
 ```
 Verificate con valgrind il corretto uso e deallocazione della memoria 
 
@@ -270,4 +270,31 @@ smista elenco 35
 deve creare il file `elenco.1.primi` contenente i valori `11` e `31`, il file  `elenco.2.primi` contenente il valore `2`,  il file  `elenco.3.primi` contenente i valori `3`, `13` e `23` e così via (all'interno dei file i valori potete scriverli uno per riga).
 
 E' particolarmente importante verificare con valgrind il corretto uso e deallocazione della memoria: se non chiudete un file che avete aperto, valgrind segnalerà un blocco di memoria che non è stato deallocato. 
+
+
+### Coppie (18/10/24)
+
+Facendo riferimento alla struct `coppia` vista nell'esempio `array_coppie.c`, scrivere un programma che richiede sulla linea di comando un numero pari *2n* di interi, crea un array di *n* puntatori a coppie, le ordina per differenza di elementi crescente e stampa e dealloca l'array ordinato. Ad esempio, scrivendo
+```
+coppie 2 2 3 4 7 0 2 1
+```
+deve creare l'array di coppie `(2 2) (3 4) (7 0) (2 1)`, che ordinato per differenza crescente risulta 
+`(3 4) (2 2) (2 1) (7 0)``, essendo le differenze -1, 0, 1, 7.
+
+
+
+### Ordinamento di file (22/10/24)
+
+Scrivere un programma che legge dalla riga di comando un elenco di file e stampa 
+l'elenco di  questi file ordinati per dimensione decrescente, 
+i file con la stessa dimensione devono essere ordinati lessicograficamente.
+
+*Nota:* per eseguire dei test con molti file osserviamo che la linea di comando
+linux ha un meccanismo di espansione dei pattern che viene effettuato prima
+di invocare i comandi. Ad esempio, se scriviamo `ordina *.c *.txt` al programma 
+`ordina` in `argc` e `argv` vengono passati tutti i file che hanno estensione `.c` e `.txt`
+
+Questo esercizio è stato svolto in aula nel file `array_file.c` esclusa la parte di ordinamento, che 
+potete svolgere modificando opportunaemnte il mergesort visto in `array_capitali_funz.c`
+
 

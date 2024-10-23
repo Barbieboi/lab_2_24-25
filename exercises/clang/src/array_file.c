@@ -61,24 +61,24 @@ void miofile_free(miofile *a)
 #if 0
 // Nota: questa parte di codice fino a #endif non viene compilata
 
-// Avendo definito il tipo capitale, ecco due 
+// Avendo definito il tipo miofile, ecco due 
 // possibili definizione di array di 100 capitali:
 // statico (dimensione immutabile)
-capitale a[100];  // ogni a[i] = una capitale  = 24 byte
+miofile a[100];  // ogni a[i] = una miofile  = 24 byte
 // dinamico
-capitale *a = malloc(100*sizeof(*a));
+miofile *a = malloc(100*sizeof(*a));
 // dopo aver creato a[] in questo modo, posso modificare gli elementi: 
 a[0].lat = 34.2;
 
-// In questo esercizio invece di un array di oggetti di tipo capitale
-// lavoreremo invece con un array di puntatori a capitale:
+// In questo esercizio invece di un array di oggetti di tipo miofile
+// lavoreremo invece con un array di puntatori a miofile:
 // versione statica
-capitale *b[100]; // ogni b[i] = un puntatore = 8 byte
+miofile *b[100]; // ogni b[i] = un puntatore = 8 byte
 // versione dinamica
-capitale **b = malloc(100*sizeof(*b));
+miofile **b = malloc(100*sizeof(*b));
 // ogni b[i] però è solo un puntatore, non esiste lo spazio
 // per i tre campi nome, lat, lon è necessario allocarlo:
-b[0] = malloc(sizeof(capitale));
+b[0] = malloc(sizeof(miofile));
 // Dato che b[0] è un puntatore, per settare la latitudine devo scrivere: 
 (*b[0]).lat = 43.2;  // corretta, ma non si usa
 // oppure:
@@ -89,18 +89,17 @@ b[0]->lat = 43.2;    // useremo questa;
 
 // stampa sul file *f i campi del file a
 void miofile_stampa(const miofile *a, FILE *f) {
-  fprintf(f,"nome file: %s dimensione: %ld\n", a->nome, a->size);
+  fprintf(f,"nome file: %20s dimensione: %ld\n", a->nome, a->size);
 }
 
 
 // --------------------------------------------------------
-// ordinamento di un array di puntatori a capitale
+// ordinamento di un array di puntatori a miofile
 
-/*
 // funzione di merge adattata dal merge di array di interi
-void merge(capitale *a[], int na, 
-           capitale *c[], int nc,
-           capitale *b[])
+void merge(miofile *a[], int na, 
+           miofile *c[], int nc,
+           miofile *b[], int (*f)(miofile* , miofile*))
 {
   assert(a!=NULL);
   assert(c!=NULL);
@@ -114,8 +113,7 @@ void merge(capitale *a[], int na,
   
   // scorro a[] e c[] e copio il minore in b[]
   while(i<na && j<nc) {
-    // guardo se il nome di a[i] è minore del nome c[j]
-    if( strcmp(a[i]->nome,c[j]->nome) < 0 ) { // ordinamento lessicografico per nome 
+    if(f(a[i], c[j])>0) {  
       b[k] = a[i];
       i++;
     } else {
@@ -146,8 +144,8 @@ void merge(capitale *a[], int na,
 
 
 // funzione mergesort ricorsiva, adattata dal mergesort di interi
-// è stato sufficiente modificare il tipo da int -> capitale * 
-void mergesort(capitale *a[], int n)
+// è stato sufficiente modificare il tipo da int -> miofile * 
+void mergesort(miofile *a[], int n, int(*f)(miofile* , miofile*))
 {
   assert(a!=NULL);
   assert(n>0);
@@ -158,13 +156,13 @@ void mergesort(capitale *a[], int n)
   int n1 = n/2;     // dimesione prima parte
   int n2 = n - n1;  // dimensione seconda parte
   
-  mergesort(a,n1);
-  mergesort(&a[n1],n2); // &a[n1] potevo scriverlo a+n1
+  mergesort(a,n1,f);
+  mergesort(&a[n1],n2, f); // &a[n1] potevo scriverlo a+n1
   
   // ho le due metà ordinate devo fare il merge
-  capitale **b = malloc(n*sizeof(*b));
+  miofile **b = malloc(n*sizeof(*b));
   if(b==NULL) termina("malloc fallita nel merge");
-  merge(a,n1,&a[n1],n2,b);  
+  merge(a,n1,&a[n1],n2,b, f);  
   // copio il risultato da b[] ad a[]
   for(int i=0;i<n;i++)
     a[i] = b[i];  // sto copiando dei puntatori 
@@ -172,24 +170,10 @@ void mergesort(capitale *a[], int n)
   free(b);
 }
 
-
-
-// -------------------------------------------------------------
-
-int confronta_nomi(capitale *a, capitale *b)
-{
-  return strcmp(a->nome,b->nome);
+int ordina_file(miofile* a, miofile* b){
+	if(a->size==b->size) return(strcmp(a->nome, b->nome));
+	else return a->size<b->size?1:-1;
 }
-
-int confronta_longi(capitale *a, capitale *b)
-{
-  if (a->lon< b->lon) return -1;
-  else if (a->lon> b->lon) return 1;
-  return 0; 
-}
-
-
-*/
 
 int main(int argc, char *argv[])
 {
@@ -197,21 +181,27 @@ int main(int argc, char *argv[])
 	printf("Uso: %s nomifile\n",argv[0]);
 	exit(1);
 	}
-
-	miofile **palle = malloc(sizeof(*palle)*(argc-1));
-	if(palle == NULL) termina("Memoria insufficente");
-
+	miofile **arr_file = malloc(sizeof(*arr_file)*(argc-1));
+	if(arr_file == NULL) termina("Memoria insufficente");
 	int n = 0 ;
 	for(int i = 1 ; i < argc-1; i++){
 		miofile* tmp = miofile_crea(argv[i]);
-		if(tmp != NULL) palle[n++] = tmp ;
+		if(tmp != NULL) arr_file[n++] = tmp ;
+	}
+	for(int i = 0 ; i < n; i++){
+		miofile_stampa(arr_file[i], stdout);
+	}
+	puts("------------");
+	mergesort(arr_file, n, ordina_file);
+
+	for(int i = 0 ; i < n; i++){
+		miofile_stampa(arr_file[i], stdout);
 	}
 
-	for(int i = 1 ; i < argc-1; i++){
-		miofile_stampa(palle[i], stdout);
+	for(int i = 0 ; i < n; i++){
+		miofile_free(arr_file[i]);
 	}
-
-
+	free(arr_file);
 	return 0;
 }
 

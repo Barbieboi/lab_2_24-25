@@ -1,5 +1,6 @@
 exercises/clang/old_src/
 
+exercises/clang/array_file
 exercises/clang/astringhe
 exercises/clang/concatena
 exercises/clang/esad
@@ -12,6 +13,10 @@ exercises/clang/smista
 exercises/clang/somma_arr
 exercises/clang/somma_mancanti
 exercises/clang/somme_distinte
+exercises/clang/ordina
+exercises/clang/coppie
 
 exercises/clang/infile.txt
 exercises/clang/outfile.txt
+exams/infile.txt
+
