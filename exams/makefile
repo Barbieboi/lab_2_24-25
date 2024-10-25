@@ -4,7 +4,7 @@ CFLAGS=-std=c11 -Wall -O -g
 LDLIBS=-lm
 
 
-all: sommek crediti
+all: 
 
 sommek:compito1.c
 	$(CC) $(CFLAGS) $^ -o $@
