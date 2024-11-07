@@ -10,7 +10,7 @@ VPATH= ./src
 
 EXECS:=	astringhe concatena mioatoi ostringhe paridispari \
 		reverse ribalta_elenco somma_arr somma_mancanti somme_distinte \
-		esad smista ordina confronta_lunghezza 
+		esad smista ordina confronta_lunghezza abr_capitali
 
 
 
