@@ -336,5 +336,25 @@ che date due stringhe `smin` e `smax` visualizza su stdout tutte le città conte
 ordine lessicografico e deve esplorare solamente le parti dell'albero che possono contenere città nel range assegnato. La funzione deve resituire il numero di nodi esplorati (cioè quelli il cui nome di città viene confrontato con `smin` e/o `smax`); questo serve per verificare che non vega visitato tutto l'abero.
 
 Modificare poi la funzione `main` in modo che dopo la costruzione dell'albero venga invocata la funzione 
-`abr_ricerca_range` con parametri `argv[2]` e `argv[3]`.   
+`abr_ricerca_range` con parametri `argv[2]` e `argv[3]`.  
+
+
+### ABR Città Sud America (8/11/24)
+
+Questo esercizio richiede di creare un ABR contenente le città del Sud America predendole da file `sudAmerica.txt`. Si proceda nel seguente modo. Nel programma `abr_capitali` si cambi la definizione di `capitale` nella seguente
+```c
+typedef struct capit {
+  char *nome;
+  char *nazione;
+  int kpop;
+  struct capit *left, *right;
+} capitale;
+```
+e si modifichino di conseguenza le funzioni `capitale_stampa`, `capitale_crea`, e `capitale_distruggi`. Si cancelli la funzione `capitale_leggi` e si modifichi la funzione `crea_abr` in modo che il ciclo `while` legga il file utilizzando `getline` ad ogni iterazione e per ogni linea utilizzando `strtok` crei e inserisca nell'ABR un nodo contenente i dati della città letta (si veda `legginomi.c` per un esempio). 
+
+Si cancellino poi le funzioni `latrange` e `abr_stampa_cond` (e la relativa chiamata in fondo a `main`. A questo punto il programma dovrebbe essere eseguibile e permettere la ricerca delle città dentro l'ABR. 
+
+
+
+
 
