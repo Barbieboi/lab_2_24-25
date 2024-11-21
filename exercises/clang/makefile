@@ -7,16 +7,19 @@ VPATH= ./src
 
 .PHONY: all clean purge
 
-EXECS:= sudamerica
-
+EXECS:= abr_persone clean
 
 
 all:$(EXECS) 
 
-ordina:array_file.c
-	$(CC) $(CFLAGS) $^ -o $@
+abr_persone : abr_persone.o persone.o
+	$(CC) $(CFLAGS) $^ $(LDLIBS) -o $@
 
-clean:
+abr_persone :
+
+
+
+clean: 
 	rm -f *.o
 
 purge:
