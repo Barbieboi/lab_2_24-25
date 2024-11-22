@@ -13,10 +13,13 @@ EXECS:= abr_persone clean
 all:$(EXECS) 
 
 abr_persone : abr_persone.o persone.o
-	$(CC) $(CFLAGS) $^ $(LDLIBS) -o $@
+	$(CC) $^ $(LDLIBS) -o $@
 
-abr_persone :
+abr_persone.o : abr_persone.c persone.h
+	$(CC) $< $(CFLAGS) -c -o $@ 
 
+persone.o : persone.c persone.h
+	$(CC) $< $(CFLAGS)  -c -o $@ 
 
 
 clean: 
