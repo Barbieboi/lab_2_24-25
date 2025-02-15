@@ -1,4 +1,5 @@
 exercises/clang/old_src/
+exercises/serpente/foldero
 
 exercises/clang/array_file
 exercises/clang/astringhe
@@ -30,3 +31,6 @@ exercises/clang/intervallo
 exercises/clang/numeri.txt
 exercises/clang/persone.txt
 exercises/clang/src/strint.h.gch
+exercises/serpente/test.txt
+exercises/serpente/test.txt.rev
+exercises/serpente/random_dir.py
