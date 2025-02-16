@@ -89,7 +89,6 @@ def elenco_file(nome,dir_esplorate,depth):
 	return lista
 
 def main(nomepath):
-	
 	elenco = elenco_file(nomepath,set(),0)
 	elenco.sort(reverse=True)
 	maxdepth = elenco[0].depth
