@@ -19,14 +19,13 @@ def link_directory(src, dest):
 			
 			if file not in aggiunti:
 				aggiunti[file] = 1
-				link = file
+				link = str(file)
 			else :
-				link = file + "." + aggiunti[file]
+				link = str(file) + "." + str(aggiunti[file])
 				aggiunti[file] += 1
 
 			link_name = os.path.join(link_dir, file)
 			print(f"linkando {sourcefile} a {link_name}")
-			assert not os.path.exists(link_name)
 			os.link(sourcefile, link_name)
 		
 
