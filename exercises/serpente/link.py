@@ -16,7 +16,6 @@ def link_directory(src, dest):
 			if not os.path.exists(link_dir):
 				os.mkdir(link_dir)
 			real_link = os.path.realpath(link_dir)
-			print(aggiunti)
 			link = f"{file}"
 			if file in aggiunti:
 				link = f"{file}.{aggiunti.count(file)}"
