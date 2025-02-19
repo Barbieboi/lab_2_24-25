@@ -9,7 +9,7 @@ def link_directory(src, dest):
 	aggiunti = []
 	for base , directories , files in os.walk(src):
 		for file in files: 
-			sourcefile = os.path.abspath(os.path.join(base, file))
+			sourcefile = os.path.realpath(os.path.join(base, file))
 			if not os.access(sourcefile, os.F_OK) or os.path.islink(sourcefile):
 				continue
 			link_dir = os.path.join(dest, (file[0].lower()))
