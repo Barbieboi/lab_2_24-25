@@ -17,7 +17,7 @@ def sorgenti(src, esplorate):
 			_ , ext = path.splitext(nome_file)
 			if ext in estensioni:
 				output = subprocess.run(['wc', nome_file], capture_output=True, encoding='utf-8')
-				count += int(output.stdout.split()[0])	
+				count += int(output.stdout.split()[0])
 		else :
 			if not os.access(nome_file, os.R_OK | os.X_OK):
 				continue
