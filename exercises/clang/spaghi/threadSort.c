@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
   		f[i] = a[i] ;
   
 
-  //gestiusco gli altri 3/4 di array nei threads
+  //gestisco gli altri 3/4 di array nei threads
   dati d[threads] ;
   pthread_t t[threads];
   int off = q ;
