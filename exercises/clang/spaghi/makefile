@@ -1,11 +1,11 @@
 CC=gcc
-CFLAGS=-std=c11 -Wall -O -ggdb -pthread
+CFLAGS=-std=c11 -Wall -O -g -pthread
 LDLIBS=-lm -pthread
 
 
 .PHONY: purge
 
-EXECS = threadSort.out
+EXECS = 
 
 all:$(EXECS) 
 

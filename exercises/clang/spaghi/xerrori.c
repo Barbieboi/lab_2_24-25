@@ -91,7 +91,7 @@ int xpthread_join(pthread_t thread, void **retval, int linea, char *file) {
 
 
 
-// mutex 
+// ----- mutex 
 int xpthread_mutex_init(pthread_mutex_t *restrict mutex, const pthread_mutexattr_t *restrict attr, int linea, char *file) {
   int e = pthread_mutex_init(mutex, attr);
   if (e!=0) {
@@ -126,6 +126,38 @@ int xpthread_mutex_unlock(pthread_mutex_t *mutex, int linea, char *file) {
   int e = pthread_mutex_unlock(mutex);
   if (e!=0) {
     xperror(e, "Errore pthread_mutex_unlock");
+    fprintf(stderr,"== %d == Linea: %d, File: %s\n",getpid(),linea,file);
+    pthread_exit(NULL);
+  }
+  return e;
+}
+
+// ---- barriere
+int xpthread_barrier_init(pthread_barrier_t *restrict barrier, const pthread_barrierattr_t *restrict attr, 
+                          unsigned int count, int linea, char *file) {
+  int e = pthread_barrier_init(barrier, attr, count);
+  if (e!=0) {
+    xperror(e, "Errore pthread_barrier_init");
+    fprintf(stderr,"== %d == Linea: %d, File: %s\n",getpid(),linea,file);
+    pthread_exit(NULL);
+  }  
+  return e;
+}
+
+int xpthread_barrier_destroy(pthread_barrier_t *barrier, int linea, char *file) {
+  int e = pthread_barrier_destroy(barrier);
+  if (e!=0) {
+    xperror(e, "Errore pthread_barrier_destroy");
+    fprintf(stderr,"== %d == Linea: %d, File: %s\n",getpid(),linea,file);
+    pthread_exit(NULL);
+  }
+  return e;
+}
+
+int xpthread_barrier_wait(pthread_barrier_t *barrier, int linea, char *file) {
+  int e = pthread_barrier_wait(barrier);
+  if (e!=0 && e!=PTHREAD_BARRIER_SERIAL_THREAD) {
+    xperror(e, "Errore pthread_barrier_wait");
     fprintf(stderr,"== %d == Linea: %d, File: %s\n",getpid(),linea,file);
     pthread_exit(NULL);
   }

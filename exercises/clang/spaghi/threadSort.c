@@ -10,7 +10,7 @@
 #include <string.h>   // funzioni per stringhe
 #include "xerrori.h"
 
-// #define V1 1
+//#define V1 1
 
 // giusto per leggibilità
 
@@ -37,12 +37,10 @@ void* threadSorter(void *args){
 
 // ordina gli interi passati sulla linea di comando
 
-// funziona solo con array >= 8 
-
 int main(int argc, char *argv[])
 {
   if(argc!=3) {
-  fprintf(stderr, "Uso:\n\t   %s num_interi seed\n", argv[0]);
+  	fprintf(stderr, "Uso:\n\t   %s num_interi seed\n", argv[0]);
 	exit(1);
   }
   int n = atoi(argv[1]);
@@ -54,6 +52,8 @@ int main(int argc, char *argv[])
   for(int i=0;i<n;i++) somma += a[i];
   // esegue l'ordinamento
   
+
+
   // Versione con un thread ausiliario
   #if V1
 
@@ -78,7 +78,6 @@ int main(int argc, char *argv[])
  
   xpthread_create(&t,NULL, &threadSorter ,&d ,__LINE__,__FILE__);
 
-  qsort(a, n/2 , sizeof(int), &intcmp) ;
 
   xpthread_join(t, NULL , __LINE__ , __FILE__) ;
   
@@ -102,11 +101,11 @@ int main(int argc, char *argv[])
   pthread_t t[threads];
   int off = q ;
   for(int i = 0 ; i < threads ; i++){
-	d[i].nums = malloc(sizeof(int)*n/4);
-	d[i].n = n/4 ;
-	for(int j = 0 ; j < n/4 ; j++){
-		d[i].nums[j] = a[off+j] ;
-	}
+	  d[i].nums = malloc(sizeof(int)*n/4);
+	  d[i].n = n/4 ;
+	  for(int j = 0 ; j < n/4 ; j++){
+		  d[i].nums[j] = a[off+j] ;
+	  }
 	// ho già gestito il resto, posso muovermi di n/4 in n/4 e arriverò in fondo all'array principale
 	off += n/4 ;
 	xpthread_create(&t[i], NULL , &threadSorter, &d[i], __LINE__, __FILE__) ;
@@ -119,26 +118,26 @@ int main(int argc, char *argv[])
 	xpthread_join(t[p], NULL, __LINE__ ,__FILE__) ;	
   } 
 
-  // merge per la prima metà
-  int nx = d[0].n+q ;
-  int *x = malloc(sizeof(int)*nx);
-  merge(f, q ,d[0].nums , d[0].n, x) ;
+	// merge per la prima metà
+	int nx = d[0].n+q ;
+	int *x = malloc(sizeof(int)*nx);
+	merge(f, q ,d[0].nums , d[0].n, x) ;
 
-  // merge per la seconda metà
-  int ny = d[1].n + d[2].n ;
-  int *y = malloc(sizeof(int)* ny);
-  merge(d[1].nums, d[1].n, d[2].nums, d[2].n, y);
-  
-  // merge finale
-  merge(x, nx , y, ny , a  ) ;
+	// merge per la seconda metà
+	int ny = d[1].n + d[2].n ;
+	int *y = malloc(sizeof(int)* ny);
+	merge(d[1].nums, d[1].n, d[2].nums, d[2].n, y);
 
-  for(int i = 0 ; i < threads; i++){
+	// merge finale
+	merge(x, nx , y, ny , a  ) ;
+
+	for(int i = 0 ; i < threads; i++){
 	free(d[i].nums);
-  }
-  free(x);
-  free(y);
+	}
+	free(x);
+	free(y);
 
-#endif
+	#endif
 
 	
   // controlla ordinamento
